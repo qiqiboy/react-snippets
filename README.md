@@ -10,9 +10,11 @@
 
 有两种方式可以使用本代码组件：
 
-##### 通过 npm 安装依赖
+##### 1. 通过 npm 安装依赖
 
 该方式代码已经经过 babel、sass 转换为普通的 es5 和 css 代码，只需要你的项目支持 webpack，以及具有 css-loader、file-loader 即可。
+
+**注：该方式无法对组件进行定制，所以不推荐使用**
 
 ```
 npm install react-anwsome-snippets --save
@@ -37,7 +39,7 @@ render(<BGM src={bgmp3} />, document.getElementById('root'));
 * webpack
 * css-loader
 
-##### 直接在项目中使用原始组件代码
+##### 2. 直接在项目中使用原始组件代码
 
 你需要将 `src/components` 下你需要使用的组件复制进你的项目中，按照通用方式引用即可。确保该位置的代码会正确经过 webpack-babel-sass 的转换编译。
 
