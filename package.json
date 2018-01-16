@@ -48,8 +48,8 @@
     "replace": "^0.3.0"
   },
   "dependencies": {
-    "react-anwsome-snippets-bgm": "^0.0.1",
-    "react-anwsome-snippets-create-pic": "^0.0.1",
-    "react-anwsome-snippets-preload": "^0.0.1"
+    "react-awesome-snippets-bgm": "^0.0.1",
+    "react-awesome-snippets-create-pic": "^0.0.1",
+    "react-awesome-snippets-preload": "^0.0.1"
   }
 }
