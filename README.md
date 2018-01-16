@@ -18,12 +18,12 @@
 
 ```bash
 # 安装全部
-npm install react-anwsome-snippets --save
+npm install react-awesome-snippets --save
 
 # 安装子模块
-npm install react-anwsome-snippets-bgm --save
-npm install react-anwsome-snippets-preload --save
-npm install react-anwsome-snippets-create-pic --save
+npm install react-awesome-snippets-bgm --save
+npm install react-awesome-snippets-preload --save
+npm install react-awesome-snippets-create-pic --save
 ```
 
 项目中调用（以 BGM 组件示例）：
@@ -32,9 +32,9 @@ npm install react-anwsome-snippets-create-pic --save
 import React from 'react';
 import { render } from 'react-dom';
 import bgmp3 from 'YOUR_MEDIA_DIR/bgm.mp3';
-import { BGM } from 'react-anwsome-snippets';
+import { BGM } from 'react-awesome-snippets';
 // or
-import BGM from 'react-anwsome-snippets-bgm';
+import BGM from 'react-awesome-snippets-bgm';
 
 render(<BGM src={bgmp3} />, document.getElementById('root'));
 ```

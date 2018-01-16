@@ -5,7 +5,7 @@
 ### 安装
 该方式不推荐使用，建议直接复制本代码进项目中，根据需求定制。
 ```
-npm install react-anwsome-snippets-preload --save
+npm install react-awesome-snippets-preload --save
 ```
 
 ### 使用
@@ -17,7 +17,7 @@ import App from 'YOUR_COMPONENTS_DIR/App'; //项目入口组件
 //源码调用
 import Preload from 'YOUR_COMPONENTS_DIR/Preload';
 //or 安装npm包调用
-import Preload from 'react-anwsome-snippets-preload';
+import Preload from 'react-awesome-snippets-preload';
 
 render(<Preload>
         <App />

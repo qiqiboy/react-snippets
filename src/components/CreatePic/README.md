@@ -5,7 +5,7 @@
 ### 安装
 该方式不推荐使用，建议直接复制本代码进项目中，根据需求定制。
 ```
-npm install react-anwsome-snippets-create-pic --save
+npm install react-awesome-snippets-create-pic --save
 ```
 
 ### 使用
@@ -16,7 +16,7 @@ import { render } from 'react-dom';
 //源码调用
 import CreatePic from 'YOUR_COMPONENTS_DIR/CreatePic';
 //or 安装npm包调用
-import CreatePic from 'react-anwsome-snippets-create-pic';
+import CreatePic from 'react-awesome-snippets-create-pic';
 
 render(<CreatePic
         width={750}
