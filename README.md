@@ -4,7 +4,7 @@
 
 ##### ~~为什么不发布成单独的依赖包（npm package）？~~
 
-**UPDATE: 已经单独发布了package，但是依然推荐将组件复制进项目中根据实际需求调用**
+**UPDATE: 已经单独发布了package，但是依然推荐将组件复制进项目中根据实际需求调用。如果没有修改定制需求，或者只是简单的样式重定义，可以直接使用已发布的package，然后在自己的代码里通过 css override 样式。**
 
 因为这类组件如果要做成可供各种情况下使用的通用库，那么需要大量抽象代码、以及各种自定义接口，需要投入很多精力在这种封装上。一方面，这种大而全的库 github 上基本上各类都有，另一方面，自己的个人精力有限。我自己觉得简单拷贝，然后根据自己的项目需求，可以做一些定制（非必须），更好的与项目结合，也是更灵活的方式。
 
@@ -34,7 +34,7 @@ npm install react-awesome-snippets-create-pic --save
 import React from 'react';
 import { render } from 'react-dom';
 import bgmp3 from 'YOUR_MEDIA_DIR/bgm.mp3';
-import { BGM } from 'react-awesome-snippets';
+import { BGM, CreatePic, Preload } from 'react-awesome-snippets';
 // or
 import BGM from 'react-awesome-snippets-bgm';
 
