@@ -2,12 +2,21 @@
 
 给定一组图片和文字，按照指定的位置、大小合成输出一张图片 http://github.boy.im/react-snippets/create-pic
 
+### 安装
+该方式不推荐使用，建议直接复制本代码进项目中，根据需求定制。
+```
+npm install react-anwsome-snippets-create-pic --save
+```
+
 ### 使用
 
 ```javascript
 import React from 'react';
 import { render } from 'react-dom';
+//源码调用
 import CreatePic from 'YOUR_COMPONENTS_DIR/CreatePic';
+//or 安装npm包调用
+import CreatePic from 'react-anwsome-snippets-create-pic';
 
 render(<CreatePic
         width={750}
