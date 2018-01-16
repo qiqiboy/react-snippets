@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-snippets",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "react相关小组件、工具集合",
   "main": "index.js",
   "directories": {
