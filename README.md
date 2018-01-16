@@ -10,4 +10,4 @@
 * sass-loader
 
 ### 目录
-* [CreatePic](http://github.boy.im/react-snippets/create-pic) 合成片段图片或文字到一张图片上
+* [CreatePic](https://github.com/qiqiboy/react-snippets/tree/master/components/CreatePic) 合成片段图片或文字到一张图片上

@@ -1,6 +1,6 @@
 # CreatePic 将图片、文字等合成图片输出
 
-给定一组图片和文字，按照指定的位置、大小合成输出一张图片
+给定一组图片和文字，按照指定的位置、大小合成输出一张图片 http://github.boy.im/react-snippets/create-pic
 
 ### 使用
 
@@ -16,15 +16,16 @@ render(<CreatePic
         config={[
         {
             image: require('some-pic-1.png'),
-            x: 10,
-            y: 10
+            x: 10, //绘制的起始点横坐标
+            y: 10 //绘制的起始点纵坐标
         },
         {
             image: require('some-pic-12.png'),
             x: 100,
             y: 200,
             width: 100,
-            height: 100
+            height: 100,
+            composite: 'source-over' //图片复合蒙层类型，取值同 canvas 的 globalCompositeOperation
         },
         {
             text: `文本渲染，支持段落、换行、文字对齐、英文单词边缘主动换行等特性。

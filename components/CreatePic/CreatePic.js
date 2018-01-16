@@ -14,7 +14,8 @@ import './CreatePic.scss';
             x: 160,
             y: 10,
             width: 100,
-            height:100
+            height:100,
+            composite: 'source-over'
         },
         {
             text: `火影忍者，尾兽拥有无穷无尽的查克拉和战斗力，被称为“凶暴的神”`,
@@ -62,6 +63,7 @@ class CreatePic extends Component {
                             if (item.image) {
                                 const img = new Image();
                                 img.onload = () => {
+                                    this.ctx.globalCompositeOperation = item.composite || 'source-over';
                                     this.drawImage(img, item.x, item.y, item.width, item.height);
                                     resolve();
                                 };
@@ -74,6 +76,7 @@ class CreatePic extends Component {
                             }
 
                             if (item.text) {
+                                this.ctx.globalCompositeOperation = item.composite || 'source-over';
                                 this.drawText(item);
                                 resolve();
                             }
@@ -90,6 +93,7 @@ class CreatePic extends Component {
      * @param {Number} y 绘制起始纵坐标
      * @param {Number} [width] 图片缩放宽度
      * @param {Number} [height] 图片缩放高度
+     * @param {string} [composite] 图片组合蒙层类型，取值同globalCompositeOperation
      */
     drawImage(...args) {
         if (args[3] == null) {
