@@ -1,8 +1,8 @@
 {
   "name": "react-anwsome-snippets",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "react相关小组件、工具集合",
-  "main": "lib/index.js",
+  "main": "index.js",
   "directories": {
     "doc": "docs"
   },
@@ -46,5 +46,10 @@
     "copy": "^0.3.1",
     "node-sass": "^4.7.2",
     "replace": "^0.3.0"
+  },
+  "dependencies": {
+    "react-anwsome-snippets-bgm": "^0.0.1",
+    "react-anwsome-snippets-create-pic": "^0.0.1",
+    "react-anwsome-snippets-preload": "^0.0.1"
   }
 }

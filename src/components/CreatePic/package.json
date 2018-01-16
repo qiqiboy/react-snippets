@@ -1,6 +1,6 @@
 {
   "name": "react-anwsome-snippets-create-pic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "给定一组图片和文字，按照指定的位置、大小合成输出一张图片 http://github.boy.im/react-snippets/create-pic",
   "main": "CreatePic.js",
   "scripts": {
@@ -14,6 +14,10 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/qiqiboy/react-snippets/issues"
+  },
+  "peerDependencies": {
+    "react": "^15.6.1",
+    "prop-types": "^15.5.10"
   },
   "homepage": "https://github.com/qiqiboy/react-snippets#readme"
 }

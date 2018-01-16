@@ -16,8 +16,14 @@
 
 **注：该方式无法对组件进行定制，所以不推荐使用**
 
-```
+```bash
+# 安装全部
 npm install react-anwsome-snippets --save
+
+# 安装子模块
+npm install react-anwsome-snippets-bgm --save
+npm install react-anwsome-snippets-preload --save
+npm install react-anwsome-snippets-create-pic --save
 ```
 
 项目中调用（以 BGM 组件示例）：
@@ -26,10 +32,9 @@ npm install react-anwsome-snippets --save
 import React from 'react';
 import { render } from 'react-dom';
 import bgmp3 from 'YOUR_MEDIA_DIR/bgm.mp3';
-
 import { BGM } from 'react-anwsome-snippets';
 // or
-import BGM_1 from 'react-anwsome-snippets/lib/components/BGM';
+import BGM from 'react-anwsome-snippets-bgm';
 
 render(<BGM src={bgmp3} />, document.getElementById('root'));
 ```
