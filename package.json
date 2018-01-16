@@ -1,0 +1,50 @@
+{
+  "name": "react-anwsome-snippets",
+  "version": "0.0.1",
+  "description": "react相关小组件、工具集合",
+  "main": "lib/index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "css": "./node_modules/.bin/node-sass src --output lib",
+    "js": "BABEL_ENV=production ./node_modules/.bin/babel src --out-dir lib",
+    "sass2css": "./node_modules/.bin/replace '\\.scss' '.css' lib/components -r --include=\"*.js\"",
+    "copy": "./node_modules/.bin/copy 'src/**/*.!(js|scss)' lib",
+    "build": "npm run css && npm run js && npm run sass2css && npm run copy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://qiqiboy@github.com/qiqiboy/react-snippets.git"
+  },
+  "keywords": [
+    "react",
+    "react-components",
+    "react-snippets"
+  ],
+  "author": "qiqiboy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qiqiboy/react-snippets/issues"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "peerDependencies": {
+    "react": "^15.6.1",
+    "react-transition-group": "^2.2.1",
+    "prop-types": "^15.5.10"
+  },
+  "homepage": "https://github.com/qiqiboy/react-snippets#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react-app": "^3.1.1",
+    "copy": "^0.3.1",
+    "node-sass": "^4.7.2",
+    "replace": "^0.3.0"
+  }
+}
