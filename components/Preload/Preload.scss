@@ -1,0 +1,44 @@
+.preload {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    .progress {
+        width: 120px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        .bar-outer {
+            width: 100%;
+            height: 9px;
+            position: relative;
+            border-radius: 4px;
+            border: 1px solid #000;
+        }
+        .bar-inner {
+            height: 100%;
+            background-color: #000;
+            transition: 0.5s linear;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 4px;
+        }
+        .text {
+            height: 14px;
+            background: url(./loading.png) no-repeat center center/contain;
+            margin-top: 15px;
+        }
+    }
+}
+
+.preload-fade-exit {
+    opacity: 1;
+}
+.preload-fade-exit-active {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}

@@ -16,3 +16,5 @@
 
 ### 目录
 * [CreatePic](https://github.com/qiqiboy/react-snippets/tree/master/components/CreatePic) 合成片段图片或文字到一张图片上
+* [BGM](https://github.com/qiqiboy/react-snippets/tree/master/components/BGM) h5背景音乐
+* [Preload](https://github.com/qiqiboy/react-snippets/tree/master/components/Preload) 图片资源处预加载
