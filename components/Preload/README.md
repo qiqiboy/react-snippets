@@ -5,7 +5,7 @@
 ### 使用
 
 ```javascript
-imporr React from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import Preload from 'YOUR_COMPONENTS_DIR/Preload';
 import App from 'YOUR_COMPONENTS_DIR/App'; //项目入口组件

@@ -5,7 +5,7 @@
 ### 使用
 
 ```javascript
-imporr React from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import BGM from 'YOUR_COMPONENTS_DIR/BGM';
 
