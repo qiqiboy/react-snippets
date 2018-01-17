@@ -16,8 +16,8 @@
     "url": "https://github.com/qiqiboy/react-snippets/issues"
   },
   "peerDependencies": {
-    "react": "^15.6.1",
-    "prop-types": "^15.5.10"
+    "react": ">15.6.1",
+    "prop-types": ">15.5.10"
   },
   "homepage": "https://github.com/qiqiboy/react-snippets#readme"
 }

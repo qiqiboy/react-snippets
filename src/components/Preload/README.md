@@ -3,10 +3,36 @@
 可以提前缓存项目里的图片资源，预加载完毕再进入应用 http://t.cn/RQxWTFd
 
 ### 安装
-该方式不推荐使用，建议直接复制本代码进项目中，根据需求定制。
+
 ```
 npm install react-awesome-snippets-preload --save
 ```
+
+### 属性参数
+
+* **{String|Array} dir** 要缓存的目录路径，单个目录可以传字符串，多个可以以数组形式。
+* **{Number} parallel** 一次加载的图片数量，默认为 5。为了避免过多占用 http 连接数，缓存采用队列形式加载，这里定义队列中每次同时加载的图片数量
+* **{Node|Function} component** 缓存中时要渲染的节点
+
+除以上参数，还可以传递`react-transition-group`中的`cssTransition`组件的可用参数，将会直接传递给所使用的`cssTransition`组件。例如：
+
+* **timeout** 默认为 `1000`
+* **classNames** 默认为 `preload`
+* **unmountOnExit** 默认为 `true`
+* ...
+
+`classNames`不是定义节点class-name的`className`，这里要注意，这个是定义`cssTransition`用来使用的css类名前缀。默认为preload，即如果要使用动画，则需要在css中添加一些动画周期的样式定义：
+
+```scss
+.preload-exit {
+    opacity: 1;
+}
+.preload-exit-active {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+```
+具体请参考 [react-tansition-group](https://reactcommunity.org/react-transition-group/)
 
 ### 使用
 
@@ -14,12 +40,24 @@ npm install react-awesome-snippets-preload --save
 import React from 'react';
 import { render } from 'react-dom';
 import App from 'YOUR_COMPONENTS_DIR/App'; //项目入口组件
-//源码调用
-import Preload from 'YOUR_COMPONENTS_DIR/Preload';
-//or 安装npm包调用
 import Preload from 'react-awesome-snippets-preload';
 
-render(<Preload>
+//该例子中，缓存项目 app 目录下的图片资源
+render(
+    <Preload
+        dir="app"
+        component={({ percent }) => (
+            <div className="preload">
+                <div className="progress">
+                    <div className="bar-outer">
+                        <div className="bar-inner" style={{ width: percent * 100 + '%' }} />
+                    </div>
+                    <div className="text">当前加载进度：{ percent * 100 }%</div>
+                </div>
+            </div>
+        )}>
         <App />
-    </Preload>, document.getElementById('root'));
+    </Preload>,
+    document.getElementById('root')
+);
 ```
