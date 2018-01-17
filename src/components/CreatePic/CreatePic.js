@@ -211,9 +211,10 @@ class CreatePic extends Component {
 
     render() {
         const { img, loading } = this.state;
+        const { className } = this.props;
 
         return (
-            <div className={'create-pic'}>
+            <div className={'create-pic' + (className ? ' ' + className : '')}>
                 {loading ? (
                     <div className="canvas-loading">图片生成中...</div>
                 ) : (
