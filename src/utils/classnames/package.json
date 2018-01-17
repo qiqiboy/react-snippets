@@ -1,0 +1,23 @@
+{
+  "name": "react-awesome-snippets-classnames",
+  "version": "0.0.1",
+  "description": "从对象、数组快速生成className",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://qiqiboy@github.com/qiqiboy/react-snippets.git"
+  },
+  "keywords": [
+    "classList",
+    "classnames"
+  ],
+  "author": "qiqiboy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qiqiboy/react-snippets/issues"
+  },
+  "homepage": "https://github.com/qiqiboy/react-snippets#readme"
+}

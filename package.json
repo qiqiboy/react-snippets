@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-snippets",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "react相关小组件、工具集合",
   "main": "index.js",
   "directories": {
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "react-awesome-snippets-bgm": "^0.0.2",
+    "react-awesome-snippets-classnames": "^0.0.1",
     "react-awesome-snippets-create-pic": "^0.0.2",
     "react-awesome-snippets-preload": "^0.0.2"
   }
