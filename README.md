@@ -67,7 +67,6 @@ render(<BGM src={bgmp3} />, document.getElementById('root'));
 * [CreatePic](https://github.com/qiqiboy/react-snippets/tree/master/src/components/CreatePic) 合成片段图片或文字到一张图片上
 * [BGM](https://github.com/qiqiboy/react-snippets/tree/master/src/components/BGM) h5 背景音乐
 * [Preload](https://github.com/qiqiboy/react-snippets/tree/master/src/components/Preload) 图片资源处预加载
-* [Preload](https://github.com/qiqiboy/react-snippets/tree/master/src/components/Preload) 图片资源处预加载
 
 #### 工具
 
