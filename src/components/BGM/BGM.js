@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './BGM.scss';
 
 class BGM extends Component {
     state = {
         playing: true
     };
-    componentDidMount() {
-        //绑定事件以触发主动播放
-        document.addEventListener('DOMContentLoaded', this.autoplay, false);
-        document.addEventListener('WeixinJSBridgeReady', this.autoplay, false);
 
-        document.addEventListener('touchstart', this.autoplay, false);
+    componentDidMount() {
+        if (this.props.autoplay) {
+            //绑定事件以触发主动播放
+            document.addEventListener('DOMContentLoaded', this.autoplay, false);
+            document.addEventListener('WeixinJSBridgeReady', this.autoplay, false);
+
+            document.addEventListener('touchstart', this.autoplay, false);
+
+            //如果后加载组件，绑定WeixinJSBridgeReady事件不会重复触发，所以我们需要手动触发
+            if (typeof WeixinJSBridge !== 'undefined') {
+                this.autoplay();
+            }
+        }
 
         this.refs.box.addEventListener('click', this.togglePlay, false);
-
         this.refs.player.addEventListener('pause', this.onpause, false);
         this.refs.player.addEventListener('play', this.onplay, false);
-
-        //如果后加载组件，绑定WeixinJSBridgeReady事件不会重复触发，所以我们需要手动触发
-        if (typeof WeixinJSBridge !== 'undefined') {
-            this.autoplay();
-        }
     }
 
     componentWillUnmount() {
@@ -29,18 +30,26 @@ class BGM extends Component {
         this.refs.player.addEventListener('pause', this.onpause, false);
         this.refs.player.addEventListener('play', this.onplay, false);
 
-        document.removeEventListener('touchstart', this.autoplay, false);
+        if (this.props.autoplay) {
+            document.removeEventListener('touchstart', this.autoplay, false);
+        }
     }
 
     onpause = () =>
-        this.setState({
-            playing: false
-        });
+        this.setState(
+            {
+                playing: false
+            },
+            this.props.onpause
+        );
 
     onplay = () =>
-        this.setState({
-            playing: true
-        });
+        this.setState(
+            {
+                playing: true
+            },
+            this.props.onplay
+        );
 
     autoplay = ev => {
         const player = this.refs.player;
@@ -50,7 +59,6 @@ class BGM extends Component {
             player.paused //且没有在播放
         ) {
             //该功能依赖于已经验证过WeixinJSBridge权限
-            //只需要页面调用过 share.init() 即可，该操作会自动去微信验证WeixinJSBridge调用权限
             if (typeof WeixinJSBridge !== 'undefined') {
                 window.WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
                     player.play();
@@ -75,16 +83,37 @@ class BGM extends Component {
     };
 
     render() {
+        const { playing } = this.state;
+        const { className, autoplay, loop, component } = this.props;
+        let children = component || this.props.children;
+
+        if (typeof children === 'function') {
+            const Children = children;
+
+            children = <Children playing={playing} paused={!playing} />;
+        }
+
         return (
-            <div className={'bgm-box' + (this.state.playing ? ' bgm-playing' : '')} ref="box">
-                <audio autoPlay loop src={this.props.src} className="player" ref="player" />
-                <div className="music" />
+            <div className={(className ? className + ' ' : '') + 'bgm-box ' + (this.state.playing ? 'bgm-playing' : 'bgm-paused')} ref="box">
+                <audio autoPlay={autoplay} loop={loop} src={this.props.src} className="player" ref="player" />
+                {children || <div className="music" />}
             </div>
         );
     }
 
+    static defaultProps = {
+        autoplay: true,
+        loop: true
+    };
+
     static propTypes = {
-        src: PropTypes.string.isRequired
+        src: PropTypes.string.isRequired,
+        autoplay: PropTypes.bool,
+        loop: PropTypes.bool,
+        onplay: PropTypes.func,
+        onpause: PropTypes.func,
+        component: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+        children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
     };
 }
 
