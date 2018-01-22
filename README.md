@@ -18,6 +18,8 @@ npm install react-awesome-snippets --save
 npm install react-awesome-snippets-bgm --save
 npm install react-awesome-snippets-preload --save
 npm install react-awesome-snippets-create-pic --save
+npm install react-awesome-snippets-blink --save
+npm install react-awesome-snippets-classnames --save
 ```
 
 项目中调用（以 BGM 组件示例）：
@@ -67,6 +69,7 @@ render(<BGM src={bgmp3} />, document.getElementById('root'));
 * [CreatePic](https://github.com/qiqiboy/react-snippets/tree/master/src/components/CreatePic) 合成片段图片或文字到一张图片上
 * [BGM](https://github.com/qiqiboy/react-snippets/tree/master/src/components/BGM) h5 背景音乐
 * [Preload](https://github.com/qiqiboy/react-snippets/tree/master/src/components/Preload) 图片资源处预加载
+* [BlinkAnimation](https://github.com/qiqiboy/react-snippets/tree/master/src/components/BlinkAnimation) 生成图片帧动画
 
 #### 工具
 
