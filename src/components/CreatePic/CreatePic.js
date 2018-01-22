@@ -31,7 +31,7 @@ import './CreatePic.scss';
  * 
  */
 class CreatePic extends Component {
-    state = { img: null, loading: true };
+    state = { img: null };
 
     componentDidMount() {
         this.canvas = document.createElement('canvas');
@@ -41,9 +41,8 @@ class CreatePic extends Component {
 
         this.create().then(() => {
             this.setState({
-                loading: false,
                 img: this.canvas.toDataURL()
-            });
+            }, this.props.onload);
         });
     }
 
@@ -210,25 +209,18 @@ class CreatePic extends Component {
     }
 
     render() {
-        const { img, loading } = this.state;
-        const { className } = this.props;
+        const { img } = this.state;
+        const { children } = this.props;
 
-        return (
-            <div className={'create-pic' + (className ? ' ' + className : '')}>
-                {loading ? (
-                    <div className="canvas-loading">图片生成中...</div>
-                ) : (
-                    <img src={img} alt="ouput" className="canvas-image" />
-                )}
-            </div>
-        );
+        return img ? <img src={img} alt="create pic output" className="create-pic-output" /> : children;
     }
 
     static propTypes = {
         config: PropTypes.array.isRequired,
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
-        background: PropTypes.string
+        background: PropTypes.string,
+        onload: PropTypes.func
     };
 }
 
