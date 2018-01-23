@@ -43,7 +43,7 @@ class CreatePic extends Component {
             this.setState({
                 img: this.canvas.toDataURL()
             }, this.props.onload);
-        });
+        }, this.props.onerror);
     }
 
     create = () => {
@@ -58,7 +58,7 @@ class CreatePic extends Component {
             (chain, item) =>
                 chain.then(
                     () =>
-                        new Promise(resolve => {
+                        new Promise((resolve, reject) => {
                             if (item.image) {
                                 const img = new Image();
                                 img.onload = () => {
@@ -68,7 +68,7 @@ class CreatePic extends Component {
                                 };
                                 img.onerror = () => {
                                     console.log(item.image + ' 图片加载失败!');
-                                    resolve();
+                                    reject(item.image);
                                 };
 
                                 img.src = item.image;
@@ -220,7 +220,8 @@ class CreatePic extends Component {
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         background: PropTypes.string,
-        onload: PropTypes.func
+        onload: PropTypes.func,
+        onerror: PropTypes.func
     };
 }
 
