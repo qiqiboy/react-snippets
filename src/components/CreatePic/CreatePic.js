@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './CreatePic.scss';
 
 /*
  * @desc 将图片、文本等绘制到canvas上，以供用户下载保存
