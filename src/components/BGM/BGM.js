@@ -7,26 +7,13 @@ class BGM extends Component {
     };
 
     componentDidMount() {
-        if (this.props.autoplay && this.refs.player.paused) {
-            //支持微信、微博下自动播放
-            if (typeof WeixinJSBridge !== 'undefined') {
-                this.playInWeixin();
-            } else {
-                document.addEventListener('WeixinJSBridgeReady', this.playInWeixin, false);
-            }
-
-            if (typeof WeiboJSBridge !== 'undefined') {
-                this.playInWeibo();
-            } else {
-                document.addEventListener('WeiboJSBridgeReady', this.playInWeibo, false);
-            }
-
-            document.addEventListener('touchstart', this.autoplay, false);
-        }
-
         this.refs.box.addEventListener('click', this.togglePlay, false);
         this.refs.player.addEventListener('pause', this.onpause, false);
         this.refs.player.addEventListener('play', this.onplay, false);
+
+        if (this.props.autoplay) {
+            this.autoplay();
+        }
     }
 
     componentWillUnmount() {
@@ -36,6 +23,8 @@ class BGM extends Component {
 
         if (this.props.autoplay) {
             document.removeEventListener('touchstart', this.autoplay, false);
+            document.removeEventListener('WeixinJSBridgeReady', this.autoplay, false);
+            document.removeEventListener('WeiboJSBridgeReady', this.autoplay, false);
         }
     }
 
@@ -55,26 +44,29 @@ class BGM extends Component {
             this.props.onplay
         );
 
-    playInWeixin = () => {
-        window.WeixinJSBridge.invoke('getNetworkType', {}, e => {
-            this.player.play();
-        });
-    };
-
-    playInWeibo = () => {
-        window.WeiboJSBridge.invoke('getNetworkType', {}, e => {
-            this.player.play();
-        });
-    };
-
+    //支持微信、微博下自动播放
     autoplay = ev => {
         const player = this.refs.player;
 
-        if (
-            !this.userClick && //用户没有操作过
-            player.paused //且没有在播放
-        ) {
-            player.play();
+        if (!this.userClicked && player.paused) {
+            if (typeof WeixinJSBridge !== 'undefined') {
+                window.WeixinJSBridge.invoke('getNetworkType', {}, e => {
+                    player.play();
+                });
+            } else if (typeof WeiboJSBridge !== 'undefined') {
+                window.WeiboJSBridge.invoke('getNetworkType', {}, e => {
+                    player.play();
+                });
+            } else {
+                player.play(); //尝试直接播放
+
+                //依然无法播放
+                if (player.paused) {
+                    document.addEventListener('touchstart', this.autoplay, false);
+                    document.addEventListener('WeixinJSBridgeReady', this.autoplay, false);
+                    document.addEventListener('WeiboJSBridgeReady', this.autoplay, false);
+                }
+            }
         }
 
         if (ev && ev.type === 'touchstart') {
@@ -86,7 +78,7 @@ class BGM extends Component {
     togglePlay = () => {
         const player = this.refs.player;
 
-        this.userClick = true; //标示用户已操作过
+        this.userClicked = true; //标示用户已操作过
 
         player.paused ? player.play() : player.pause();
     };
