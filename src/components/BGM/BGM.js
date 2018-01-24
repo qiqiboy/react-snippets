@@ -7,17 +7,21 @@ class BGM extends Component {
     };
 
     componentDidMount() {
-        if (this.props.autoplay) {
-            //绑定事件以触发主动播放
-            document.addEventListener('DOMContentLoaded', this.autoplay, false);
-            document.addEventListener('WeixinJSBridgeReady', this.autoplay, false);
+        if (this.props.autoplay && this.refs.player.paused) {
+            //支持微信、微博下自动播放
+            if (typeof WeixinJSBridge !== 'undefined') {
+                this.playInWeixin();
+            } else {
+                document.addEventListener('WeixinJSBridgeReady', this.playInWeixin, false);
+            }
+
+            if (typeof WeiboJSBridge !== 'undefined') {
+                this.playInWeibo();
+            } else {
+                document.addEventListener('WeiboJSBridgeReady', this.playInWeibo, false);
+            }
 
             document.addEventListener('touchstart', this.autoplay, false);
-
-            //如果后加载组件，绑定WeixinJSBridgeReady事件不会重复触发，所以我们需要手动触发
-            if (typeof WeixinJSBridge !== 'undefined') {
-                this.autoplay();
-            }
         }
 
         this.refs.box.addEventListener('click', this.togglePlay, false);
@@ -51,6 +55,18 @@ class BGM extends Component {
             this.props.onplay
         );
 
+    playInWeixin = () => {
+        window.WeixinJSBridge.invoke('getNetworkType', {}, e => {
+            this.player.play();
+        });
+    };
+
+    playInWeibo = () => {
+        window.WeiboJSBridge.invoke('getNetworkType', {}, e => {
+            this.player.play();
+        });
+    };
+
     autoplay = ev => {
         const player = this.refs.player;
 
@@ -58,14 +74,7 @@ class BGM extends Component {
             !this.userClick && //用户没有操作过
             player.paused //且没有在播放
         ) {
-            //该功能依赖于已经验证过WeixinJSBridge权限
-            if (typeof WeixinJSBridge !== 'undefined') {
-                window.WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
-                    player.play();
-                });
-            } else {
-                player.play();
-            }
+            player.play();
         }
 
         if (ev && ev.type === 'touchstart') {
@@ -94,7 +103,13 @@ class BGM extends Component {
         }
 
         return (
-            <div className={(className ? className + ' ' : '') + 'bgm-box ' + (this.state.playing ? 'bgm-playing' : 'bgm-paused')} ref="box">
+            <div
+                className={
+                    (className ? className + ' ' : '') +
+                    'bgm-box ' +
+                    (this.state.playing ? 'bgm-playing' : 'bgm-paused')
+                }
+                ref="box">
                 <audio autoPlay={autoplay} loop={loop} src={this.props.src} className="player" ref="player" />
                 {children || <div className="music" />}
             </div>
