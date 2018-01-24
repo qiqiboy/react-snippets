@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-snippets-preload",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "可以提前缓存项目里的图片资源，预加载完毕再进入应用 https://0x9.me/4Ke1L",
   "main": "Preload.js",
   "scripts": {

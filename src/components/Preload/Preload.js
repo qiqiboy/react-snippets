@@ -24,7 +24,7 @@ class Preload extends Component {
         const syncLoadNum = this.props.parallel; //同时加载图片数量
         let loaded = 0;
 
-        console.time('Preload time');
+        //console.time('Preload time');
 
         let chain = Promise.resolve(); //Promise链
         for (let i = 0; i < filesNum; i += syncLoadNum) {
@@ -63,7 +63,7 @@ class Preload extends Component {
 
         // 资源缓存完毕
         chain.then(() => {
-            console.timeEnd('Preload time');
+            //console.timeEnd('Preload time');
         });
 
         chain.then(this.props.onload);
