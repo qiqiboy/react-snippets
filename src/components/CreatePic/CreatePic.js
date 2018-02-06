@@ -60,6 +60,7 @@ class CreatePic extends Component {
                         new Promise((resolve, reject) => {
                             if (item.image) {
                                 const img = new Image();
+                                img.setAttribute('crossOrigin', 'anonymous');
                                 img.onload = () => {
                                     this.ctx.globalCompositeOperation = item.composite || 'source-over';
                                     this.drawImage(img, item.x, item.y, item.width, item.height);

@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class BGM extends Component {
-    state = {
-        playing: true
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            playing: props.autoplay
+        };
+    }
 
     componentDidMount() {
         this.refs.box.addEventListener('click', this.togglePlay, false);
@@ -22,9 +26,7 @@ class BGM extends Component {
         this.refs.player.addEventListener('play', this.onplay, false);
 
         if (this.props.autoplay) {
-            document.removeEventListener('touchstart', this.autoplay, false);
-            document.removeEventListener('WeixinJSBridgeReady', this.autoplay, false);
-            document.removeEventListener('WeiboJSBridgeReady', this.autoplay, false);
+            this.unhandle();
         }
     }
 
@@ -47,8 +49,9 @@ class BGM extends Component {
     //支持微信、微博下自动播放
     autoplay = ev => {
         const player = this.refs.player;
+        const box = this.refs.box;
 
-        if (!this.userClicked && player.paused) {
+        if ((!ev || (ev.target !== box && !box.contains(ev.target))) && !this.userClicked && player.paused) {
             if (typeof WeixinJSBridge !== 'undefined') {
                 window.WeixinJSBridge.invoke('getNetworkType', {}, e => {
                     player.play();
@@ -58,21 +61,35 @@ class BGM extends Component {
                     player.play();
                 });
             } else {
-                player.play(); //尝试直接播放
+                const playPromise = player.play(); //尝试直接播放
+
+                if (playPromise && playPromise.catch) {
+                    playPromise.catch(err => {
+                        console.log('Failed to play bgm:', err);
+                    });
+                }
 
                 //依然无法播放
                 if (player.paused) {
                     document.addEventListener('touchstart', this.autoplay, false);
+                    document.addEventListener('mousedown', this.autoplay, false);
                     document.addEventListener('WeixinJSBridgeReady', this.autoplay, false);
                     document.addEventListener('WeiboJSBridgeReady', this.autoplay, false);
                 }
             }
         }
 
-        if (ev && ev.type === 'touchstart') {
+        if (player.paused === false || this.userClicked) {
             //移除事件绑定
-            document.removeEventListener('touchstart', this.autoplay, false);
+            this.unhandle();
         }
+    };
+
+    unhandle = () => {
+        document.removeEventListener('touchstart', this.autoplay, false);
+        document.removeEventListener('mousedown', this.autoplay, false);
+        document.removeEventListener('WeixinJSBridgeReady', this.autoplay, false);
+        document.removeEventListener('WeiboJSBridgeReady', this.autoplay, false);
     };
 
     togglePlay = () => {
