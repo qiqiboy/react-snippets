@@ -20,6 +20,7 @@ npm install react-awesome-snippets-preload --save
 npm install react-awesome-snippets-create-pic --save
 npm install react-awesome-snippets-blink --save
 npm install react-awesome-snippets-classnames --save
+npm install react-awesome-snippets-with-transition --save
 ```
 
 项目中调用（以 BGM 组件示例）：
@@ -74,3 +75,4 @@ render(<BGM src={bgmp3} />, document.getElementById('root'));
 #### 工具
 
 * [classnames](https://github.com/qiqiboy/react-snippets/tree/master/src/utils/classnames) 快速生成className
+* [withTransition](https://github.com/qiqiboy/react-snippets/tree/master/src/utils/withTransition) 快速生成cssTransition组件

@@ -1,0 +1,28 @@
+{
+  "name": "react-awesome-snippets-with-transition",
+  "version": "0.0.1",
+  "description": "创建cssTransition动画组件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://qiqiboy@github.com/qiqiboy/react-snippets.git"
+  },
+  "keywords": [
+    "transition",
+    "react-transition"
+  ],
+  "author": "qiqiboy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qiqiboy/react-snippets/issues"
+  },
+  "peerDependencies": {
+    "react": ">16.0.0",
+    "react-transition-group": ">2.0.0",
+    "prop-types": "^15.5.10"
+  },
+  "homepage": "https://github.com/qiqiboy/react-snippets#readme"
+}
