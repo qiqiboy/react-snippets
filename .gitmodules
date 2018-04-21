@@ -1,0 +1,3 @@
+[submodule "src/components/AnimatedRouter"]
+	path = src/components/AnimatedRouter
+	url = https://qiqiboy@github.com/qiqiboy/react-animated-router.git

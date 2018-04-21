@@ -71,6 +71,7 @@ render(<BGM src={bgmp3} />, document.getElementById('root'));
 * [BGM](https://github.com/qiqiboy/react-snippets/tree/master/src/components/BGM) h5 背景音乐
 * [Preload](https://github.com/qiqiboy/react-snippets/tree/master/src/components/Preload) 图片资源处预加载
 * [BlinkAnimation](https://github.com/qiqiboy/react-snippets/tree/master/src/components/BlinkAnimation) 生成图片帧动画
+* [AnimatedRouter](https://github.com/qiqiboy/react-animated-router) 便捷的路由动画切换组件
 
 #### 工具
 
