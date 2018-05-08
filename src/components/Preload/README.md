@@ -10,7 +10,7 @@ npm install react-awesome-snippets-preload --save
 
 ### 属性参数
 
-* **{String|Array} dir** 要缓存的目录路径，单个目录可以传字符串，多个可以以数组形式。
+* **{Array} images** 要缓存的图片地址数组
 * **{Number} parallel** 一次加载的图片数量，默认为 5。为了避免过多占用 http 连接数，缓存采用队列形式加载，这里定义队列中每次同时加载的图片数量
 * **{Node|Function} component** 缓存中时要渲染的节点
 
@@ -42,10 +42,13 @@ import { render } from 'react-dom';
 import App from 'YOUR_COMPONENTS_DIR/App'; //项目入口组件
 import Preload from 'react-awesome-snippets-preload';
 
-//该例子中，缓存项目 app 目录下的图片资源
+//该例子中，缓存项目 static/images 目录下的图片资源
+const imgContext = require.context('static/images', true, /\.(jpg|png|gif)$/);
+const images = imgContext.keys().map(path => imgContext(path));
+
 render(
     <Preload
-        dir="app"
+        images={images}
         component={({ percent }) => (
             <div className="preload">
                 <div className="progress">

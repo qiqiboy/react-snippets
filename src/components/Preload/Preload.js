@@ -9,17 +9,7 @@ class Preload extends Component {
     };
 
     componentDidMount() {
-        const directives = typeof this.props.dir === 'string' ? [this.props.dir] : this.props.dir;
-        const allImgs = directives.reduce((total, dir) => {
-            const context = require.context('app', true, /\.(png|jpeg|gif|png|jpg|svg)$/i);
-
-            return total.concat(
-                context.keys().map(path => ({
-                    path,
-                    context
-                }))
-            );
-        }, []);
+        const allImgs = this.props.images;
         const filesNum = allImgs.length;
         const syncLoadNum = this.props.parallel; //同时加载图片数量
         let loaded = 0;
@@ -38,7 +28,6 @@ class Preload extends Component {
 
                     tasks.push(
                         new Promise(resolve => {
-                            const imgSrc = img.context(img.path);
                             const image = new Image();
                             const onload = () => {
                                 resolve();
@@ -52,7 +41,7 @@ class Preload extends Component {
                             const timer = setTimeout(onload, 800); //如果某张图片加载时间过长，则跳过
 
                             image.onload = image.onerror = onload;
-                            image.src = imgSrc;
+                            image.src = img;
                         })
                     );
                 }
@@ -111,7 +100,7 @@ class Preload extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-        dir: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+        images: PropTypes.array.isRequired,
         parallel: PropTypes.number
     };
 }
