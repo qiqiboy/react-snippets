@@ -12,17 +12,12 @@ export default function withTransition(defaultProps) {
 
         static propTypes = {
             classNames: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
-        }
+        };
 
         render() {
-            const { in: inProp, timeout, children, classNames, unmountOnExit } = this.props;
-
             return (
                 <CSSTransition
-                    classNames={classNames}
-                    in={inProp}
-                    timeout={timeout}
-                    unmountOnExit={unmountOnExit}
+                    {...this.props}
                     addEndListener={(node, done) => {
                         node.addEventListener(
                             'transitionend',
