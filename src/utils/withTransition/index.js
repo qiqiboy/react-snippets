@@ -15,9 +15,11 @@ export default function withTransition(defaultProps) {
         };
 
         render() {
+            const { children, ...props } = this.props;
+
             return (
                 <CSSTransition
-                    {...this.props}
+                    {...props}
                     addEndListener={(node, done) => {
                         node.addEventListener(
                             'transitionend',
