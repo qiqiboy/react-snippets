@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-snippets",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "react相关小组件、工具集合",
   "main": "index.js",
   "directories": {
@@ -50,7 +50,7 @@
     "react-awesome-snippets-bgm": "latest",
     "react-awesome-snippets-blink": "latest",
     "react-awesome-snippets-classnames": "latest",
-    "react-awesome-snippets-create-pic": "0.0.7",
+    "react-awesome-snippets-create-pic": "0.0.8",
     "react-awesome-snippets-with-transition": "latest",
     "react-animated-router": "latest",
     "react-awesome-snippets-preload": "latest"
