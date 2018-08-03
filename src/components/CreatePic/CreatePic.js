@@ -27,7 +27,7 @@ import PropTypes from 'prop-types';
             font: '20px Helvetica'
         }
     ]} width={600} height={1200} background="grey" />
- * 
+ *
  */
 class CreatePic extends Component {
     state = { img: null };
@@ -39,9 +39,15 @@ class CreatePic extends Component {
         this.canvas.height = this.props.height;
 
         this.create().then(() => {
-            this.setState({
-                img: this.canvas.toDataURL()
-            }, this.props.onload);
+            const img = this.canvas.toDataURL();
+            this.setState(
+                {
+                    img
+                },
+                () => {
+                    this.props.onload && this.props.onload(img);
+                }
+            );
         }, this.props.onerror);
     }
 
