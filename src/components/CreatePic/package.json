@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-snippets-create-pic",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "给定一组图片和文字，按照指定的位置、大小合成输出一张图片 http://github.boy.im/react-snippets/create-pic",
   "main": "CreatePic.js",
   "scripts": {

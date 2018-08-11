@@ -39,29 +39,27 @@ class CreatePic extends Component {
         this.canvas.height = this.props.height;
 
         this.create()
-            .then(
-                () => {
-                    const img = this.canvas.toDataURL();
-                    this.setState(
-                        {
-                            img
-                        },
-                        () => {
-                            this.props.onload && this.props.onload(img);
-                        }
-                    );
-                },
-                error => {
-                    this.setState(
-                        {
-                            error
-                        },
-                        () => {
-                            this.props.onerror && this.props.onerror(error);
-                        }
-                    );
-                }
-            )
+            .then(() => {
+                const img = this.canvas.toDataURL('image/jpeg', 0.7);
+                this.setState(
+                    {
+                        img
+                    },
+                    () => {
+                        this.props.onload && this.props.onload(img);
+                    }
+                );
+            })
+            .catch(error => {
+                this.setState(
+                    {
+                        error
+                    },
+                    () => {
+                        this.props.onerror && this.props.onerror(error);
+                    }
+                );
+            })
             .then(() =>
                 this.setState({
                     loading: false
@@ -85,8 +83,8 @@ class CreatePic extends Component {
                             if (item.image) {
                                 const img = new Image();
 
-                                if (/^http/i.test(item.image)) {
-                                    img.setAttribute('crossOrigin', '*');
+                                if (/^http/i.test(item.image) || item.crossOrigin) {
+                                    img.crossOrigin = item.crossOrigin || 'anonymous';
                                 }
 
                                 img.onload = () => {
@@ -96,7 +94,7 @@ class CreatePic extends Component {
                                 };
                                 img.onerror = () => {
                                     console.log(item.image + ' 图片加载失败!');
-                                    reject(new Error(`Fail to load ${item.image}`));
+                                    reject(new Error(`Failed to load ${item.image}`));
                                 };
 
                                 img.src = item.image;
@@ -242,6 +240,7 @@ class CreatePic extends Component {
 
         if (typeof children === 'function') {
             return children({
+                state: loading ? 0 : error ? 2 : 1,
                 img,
                 error,
                 loading
@@ -252,7 +251,11 @@ class CreatePic extends Component {
             return children;
         }
 
-        return img ? <img src={img} alt="create pic output" className="create-pic-output" /> : error.message;
+        if (img) {
+            return <img src={img} alt="create pic output" className="create-pic-output" />;
+        }
+
+        return null;
     }
 
     static propTypes = {
