@@ -30,7 +30,7 @@ import PropTypes from 'prop-types';
  *
  */
 class CreatePic extends Component {
-    state = { img: null };
+    state = { img: null, loading: true, error: null };
 
     componentDidMount() {
         this.canvas = document.createElement('canvas');
@@ -38,17 +38,35 @@ class CreatePic extends Component {
         this.canvas.width = this.props.width;
         this.canvas.height = this.props.height;
 
-        this.create().then(() => {
-            const img = this.canvas.toDataURL();
-            this.setState(
-                {
-                    img
-                },
+        this.create()
+            .then(
                 () => {
-                    this.props.onload && this.props.onload(img);
+                    const img = this.canvas.toDataURL();
+                    this.setState(
+                        {
+                            img
+                        },
+                        () => {
+                            this.props.onload && this.props.onload(img);
+                        }
+                    );
+                },
+                error => {
+                    this.setState(
+                        {
+                            error
+                        },
+                        () => {
+                            this.props.onerror && this.props.onerror(error);
+                        }
+                    );
                 }
+            )
+            .then(() =>
+                this.setState({
+                    loading: false
+                })
             );
-        }, this.props.onerror);
     }
 
     create = () => {
@@ -68,7 +86,7 @@ class CreatePic extends Component {
                                 const img = new Image();
 
                                 if (/^http/i.test(item.image)) {
-                                    img.setAttribute('crossOrigin', 'anonymous');
+                                    img.setAttribute('crossOrigin', '*');
                                 }
 
                                 img.onload = () => {
@@ -78,7 +96,7 @@ class CreatePic extends Component {
                                 };
                                 img.onerror = () => {
                                     console.log(item.image + ' 图片加载失败!');
-                                    reject(item.image);
+                                    reject(new Error(`Fail to load ${item.image}`));
                                 };
 
                                 img.src = item.image;
@@ -219,10 +237,22 @@ class CreatePic extends Component {
     }
 
     render() {
-        const { img } = this.state;
+        const { img, error, loading } = this.state;
         const { children } = this.props;
 
-        return img ? <img src={img} alt="create pic output" className="create-pic-output" /> : children;
+        if (typeof children === 'function') {
+            return children({
+                img,
+                error,
+                loading
+            });
+        }
+
+        if (loading) {
+            return children;
+        }
+
+        return img ? <img src={img} alt="create pic output" className="create-pic-output" /> : error.message;
     }
 
     static propTypes = {
