@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-snippets-preload",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "生成闪动动画",
   "main": "BlinkAnimation.js",
   "scripts": {

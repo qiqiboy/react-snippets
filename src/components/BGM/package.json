@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-snippets-bgm",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "可以生成带开关的可以自动播放的（支持微信自动播放）的组件 https://0x9.me/4Ke1L",
   "main": "BGM.js",
   "scripts": {

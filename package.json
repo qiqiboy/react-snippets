@@ -33,7 +33,8 @@
       "react-app"
     ],
     "plugins": [
-      "transform-decorators-legacy"
+      "transform-decorators-legacy",
+      "transform-es2015-modules-commonjs"
     ]
   },
   "homepage": "https://github.com/qiqiboy/react-snippets#readme",
@@ -50,7 +51,7 @@
     "react-awesome-snippets-bgm": "latest",
     "react-awesome-snippets-blink": "latest",
     "react-awesome-snippets-classnames": "latest",
-    "react-awesome-snippets-create-pic": "0.0.10",
+    "react-awesome-snippets-create-pic": "0.0.11",
     "react-awesome-snippets-with-transition": "latest",
     "react-animated-router": "latest",
     "react-awesome-snippets-preload": "latest"

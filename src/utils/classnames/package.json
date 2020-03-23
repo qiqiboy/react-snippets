@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-snippets-classnames",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "从对象、数组快速生成className",
   "main": "index.js",
   "scripts": {
