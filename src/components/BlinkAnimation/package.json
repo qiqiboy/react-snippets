@@ -1,5 +1,5 @@
 {
-  "name": "react-awesome-snippets-preload",
+  "name": "react-awesome-snippets-blink",
   "version": "0.0.2",
   "description": "生成闪动动画",
   "main": "BlinkAnimation.js",
