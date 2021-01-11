@@ -89,7 +89,15 @@ class CreatePic extends Component {
 
                                 img.onload = () => {
                                     this.ctx.globalCompositeOperation = item.composite || 'source-over';
-                                    this.drawImage(img, item.x, item.y, item.width, item.height);
+                                    this.drawImage({
+                                        img,
+                                        left: item.x,
+                                        top: item.y,
+                                        width: item.width,
+                                        height: item.height,
+                                        round: item.round
+                                    });
+
                                     resolve();
                                 };
                                 img.onerror = () => {
@@ -119,12 +127,23 @@ class CreatePic extends Component {
      * @param {Number} [width] 图片缩放宽度
      * @param {Number} [height] 图片缩放高度
      * @param {string} [composite] 图片组合蒙层类型，取值同globalCompositeOperation
+     * @param {Boolean} [round] 图片是否带圆角
      */
-    drawImage(...args) {
-        if (args[3] == null) {
-            args = args.slice(0, 3);
+    drawImage({ img, top = 0, left = 0, width = 0, height = 0, round = false }) {
+        this.ctx.save();
+
+        if (round) {
+            this.ctx.fill();
+            this.ctx.beginPath();
+            this.ctx.arc(left + width / 2, top + height / 2, width / 2, 0, 2 * Math.PI);
+            this.ctx.closePath();
+            this.ctx.clip();
+            this.ctx.drawImage(img, left, top, width, height);
+        } else {
+            this.ctx.drawImage(img, left, top, width, height);
         }
-        this.ctx.drawImage(...args);
+
+        this.ctx.restore();
     }
 
     /**
