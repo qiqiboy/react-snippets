@@ -95,7 +95,7 @@ class CreatePic extends Component {
                                         top: item.y,
                                         width: item.width,
                                         height: item.height,
-                                        round: item.round
+                                        isRound: item.isRound
                                     });
 
                                     resolve();
@@ -127,12 +127,12 @@ class CreatePic extends Component {
      * @param {Number} [width] 图片缩放宽度
      * @param {Number} [height] 图片缩放高度
      * @param {string} [composite] 图片组合蒙层类型，取值同globalCompositeOperation
-     * @param {Boolean} [round] 图片是否带圆角
+     * @param {Boolean} [isRound] 图片是否带圆角
      */
-    drawImage({ img, top = 0, left = 0, width = 0, height = 0, round = false }) {
+    drawImage({ img, top = 0, left = 0, width = 0, height = 0, isRound = false }) {
         this.ctx.save();
 
-        if (round) {
+        if (isRound) {
             this.ctx.fill();
             this.ctx.beginPath();
             this.ctx.arc(left + width / 2, top + height / 2, width / 2, 0, 2 * Math.PI);
