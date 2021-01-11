@@ -138,11 +138,8 @@ class CreatePic extends Component {
             this.ctx.arc(left + width / 2, top + height / 2, width / 2, 0, 2 * Math.PI);
             this.ctx.closePath();
             this.ctx.clip();
-            this.ctx.drawImage(img, left, top, width, height);
-        } else {
-            this.ctx.drawImage(img, left, top, width, height);
         }
-
+        this.ctx.drawImage(img, left, top, width, height);
         this.ctx.restore();
     }
 
