@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
             y: 10,
             width: 100,
             height:100,
+            round: false,
             composite: 'source-over'
         },
         {
@@ -22,6 +23,7 @@ import PropTypes from 'prop-types';
             y: 200,
             align: 'right',
             width: 500,
+            height: 70,
             color:'red',
             lineHeight: 30,
             font: '20px Helvetica'
@@ -41,6 +43,7 @@ class CreatePic extends Component {
         this.create()
             .then(() => {
                 const img = this.canvas.toDataURL('image/jpeg', 0.7);
+
                 this.setState(
                     {
                         img
@@ -50,7 +53,7 @@ class CreatePic extends Component {
                     }
                 );
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState(
                     {
                         error
@@ -89,6 +92,7 @@ class CreatePic extends Component {
 
                                 img.onload = () => {
                                     this.ctx.globalCompositeOperation = item.composite || 'source-over';
+
                                     this.drawImage({
                                         img,
                                         x: item.x,
@@ -100,6 +104,7 @@ class CreatePic extends Component {
 
                                     resolve();
                                 };
+
                                 img.onerror = () => {
                                     console.log(item.image + ' 图片加载失败!');
                                     reject(new Error(`Failed to load ${item.image}`));
@@ -122,8 +127,8 @@ class CreatePic extends Component {
     /**
      * @desc 绘制图片
      * @param {Image} img 图片对象
-     * @param {Number} x 绘制起始横坐标
-     * @param {Number} y 绘制起始纵坐标
+     * @param {Number} [x] 绘制起始横坐标
+     * @param {Number} [y] 绘制起始纵坐标
      * @param {Number} [width] 图片缩放宽度
      * @param {Number} [height] 图片缩放高度
      * @param {string} [composite] 图片组合蒙层类型，取值同globalCompositeOperation
@@ -139,6 +144,7 @@ class CreatePic extends Component {
             this.ctx.closePath();
             this.ctx.clip();
         }
+
         this.ctx.drawImage(img, x, y, width, height);
         this.ctx.restore();
     }
@@ -154,26 +160,26 @@ class CreatePic extends Component {
      *              align 对齐方向，可选值 left、center、right
      *              x 开始横坐标
      *              y 开始纵坐标
-     *              ellipsis 是否支持省略号
      */
     drawText(item) {
         const ctx = this.ctx;
+
         ctx.font = item.font || '30px arial';
         ctx.fillStyle = item.color;
 
         const maxWidth = item.width || this.props.width - item.x;
         const lineHeight = item.lineHeight || ctx.measureText('热').width * 1.4;
 
-        let curLine = 0, //当前绘制行
-            curIndex = 0, //要绘制的字符串索引
-            curDrawWidth = 0; //当前行已绘制宽度
+        let curLine = 0, // 当前绘制行
+            curIndex = 0, // 要绘制的字符串索引
+            curDrawWidth = 0; // 当前行已绘制宽度
 
         for (let i = curIndex; i < item.text.length; i++) {
             // 支持省略号最后的行数
-            const isEllipsisLine = item.ellipsis && Math.floor(item.height / lineHeight) === curLine + 1;
+            const isEllipsisLine = item.height > 0 && Math.floor(item.height / lineHeight) === curLine + 1;
 
             if (item.text[i] === '\n') {
-                //遇到换行符，主动换行
+                // 遇到换行符，主动换行
 
                 const currentText = item.text.substring(curIndex, i);
                 const text = isEllipsisLine ? this.getEllipsisText(currentText, maxWidth) : currentText;
@@ -183,6 +189,7 @@ class CreatePic extends Component {
                     this.countX(item.align, item.x, curDrawWidth, maxWidth),
                     item.y + lineHeight * curLine
                 );
+
                 curIndex = i;
                 curLine++;
                 curDrawWidth = 0;
@@ -193,10 +200,11 @@ class CreatePic extends Component {
             } else {
                 const curCharWidth = ctx.measureText(item.text[i]).width;
 
-                //判断是否需要换行
+                // 判断是否需要换行
                 if (curDrawWidth + curCharWidth > maxWidth) {
                     const { index: findWordStart, offset } = this.findWord(item.text, i);
-                    //英文单词等不要分割
+
+                    // 英文单词等不要分割
                     if (findWordStart >= curIndex && this.isWordLetter(item.text[i])) {
                         const currentText = item.text.substring(curIndex, findWordStart + 1);
                         const text = isEllipsisLine ? this.getEllipsisText(currentText, maxWidth) : currentText;
@@ -206,6 +214,7 @@ class CreatePic extends Component {
                             this.countX(item.align, item.x, curDrawWidth - offset, maxWidth),
                             item.y + lineHeight * curLine
                         );
+
                         curIndex = findWordStart + 1;
                         curDrawWidth = offset;
 
@@ -221,6 +230,7 @@ class CreatePic extends Component {
                             this.countX(item.align, item.x, curDrawWidth, maxWidth),
                             item.y + lineHeight * curLine
                         );
+
                         curIndex = i;
                         curDrawWidth = curCharWidth;
 
@@ -231,14 +241,14 @@ class CreatePic extends Component {
 
                     curLine++;
                 } else if (i + 1 === item.text.length) {
-                    //绘制最后一行
+                    // 绘制最后一行
                     ctx.fillText(
                         item.text.substring(curIndex),
                         this.countX(item.align, item.x, curDrawWidth + curCharWidth, maxWidth),
                         item.y + lineHeight * curLine
                     );
                 } else {
-                    //累加字符渲染宽度
+                    // 累加字符渲染宽度
                     curDrawWidth += curCharWidth;
                 }
             }
@@ -260,6 +270,7 @@ class CreatePic extends Component {
 
     findWord(text, index) {
         let offset = 0;
+
         while (index-- || index === 0) {
             if (!this.isWordLetter(text[index])) {
                 return {

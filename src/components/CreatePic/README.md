@@ -12,7 +12,7 @@ npm install react-awesome-snippets-create-pic --save
 
 ### 使用
 
-```javascript
+```typescript
 import React from 'react';
 import { render } from 'react-dom';
 //源码调用
@@ -37,6 +37,7 @@ render(
                 y: 200,
                 width: 100,
                 height: 100,
+                round: true,
                 composite: 'source-over' //图片复合蒙层类型，取值同 canvas 的 globalCompositeOperation
             },
             {
@@ -55,5 +56,10 @@ render(
     document.getElementById('root')
 );
 ```
+
+#### 特别说明
+
+* 如果是`text`，那么如果设置了高度，并且文本超出，会自动在截断位置显示`...`
+* 如果是`image`，那么可以设置`round: true`，那么将会在图片中心位置裁切一个最大的圆形图片显示（圆角效果）
 
 如果图片较多，加载需要时间，所以可能生成速度会有影响，如果图片还没生成，会默认显示 `<CreatePic></CreatePic>` 的子节点。
