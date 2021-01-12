@@ -89,7 +89,15 @@ class CreatePic extends Component {
 
                                 img.onload = () => {
                                     this.ctx.globalCompositeOperation = item.composite || 'source-over';
-                                    this.drawImage(img, item.x, item.y, item.width, item.height);
+                                    this.drawImage({
+                                        img,
+                                        x: item.x,
+                                        y: item.y,
+                                        width: item.width,
+                                        height: item.height,
+                                        round: item.round
+                                    });
+
                                     resolve();
                                 };
                                 img.onerror = () => {
@@ -119,12 +127,20 @@ class CreatePic extends Component {
      * @param {Number} [width] 图片缩放宽度
      * @param {Number} [height] 图片缩放高度
      * @param {string} [composite] 图片组合蒙层类型，取值同globalCompositeOperation
+     * @param {Boolean} [round] 图片是否带圆角
      */
-    drawImage(...args) {
-        if (args[3] == null) {
-            args = args.slice(0, 3);
+    drawImage({ img, y = 0, x = 0, width = 0, height = 0, round = false }) {
+        this.ctx.save();
+
+        if (round) {
+            this.ctx.fill();
+            this.ctx.beginPath();
+            this.ctx.arc(x + width / 2, y + height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI);
+            this.ctx.closePath();
+            this.ctx.clip();
         }
-        this.ctx.drawImage(...args);
+        this.ctx.drawImage(img, x, y, width, height);
+        this.ctx.restore();
     }
 
     /**
@@ -138,6 +154,7 @@ class CreatePic extends Component {
      *              align 对齐方向，可选值 left、center、right
      *              x 开始横坐标
      *              y 开始纵坐标
+     *              ellipsis 是否支持省略号
      */
     drawText(item) {
         const ctx = this.ctx;
@@ -152,16 +169,27 @@ class CreatePic extends Component {
             curDrawWidth = 0; //当前行已绘制宽度
 
         for (let i = curIndex; i < item.text.length; i++) {
+            // 支持省略号最后的行数
+            const isEllipsisLine = item.ellipsis && Math.floor(item.height / lineHeight) === curLine + 1;
+
             if (item.text[i] === '\n') {
                 //遇到换行符，主动换行
+
+                const currentText = item.text.substring(curIndex, i);
+                const text = isEllipsisLine ? this.getEllipsisText(currentText, maxWidth) : currentText;
+
                 ctx.fillText(
-                    item.text.substring(curIndex, i),
+                    text,
                     this.countX(item.align, item.x, curDrawWidth, maxWidth),
                     item.y + lineHeight * curLine
                 );
                 curIndex = i;
                 curLine++;
                 curDrawWidth = 0;
+
+                if (isEllipsisLine) {
+                    break;
+                }
             } else {
                 const curCharWidth = ctx.measureText(item.text[i]).width;
 
@@ -170,21 +198,35 @@ class CreatePic extends Component {
                     const { index: findWordStart, offset } = this.findWord(item.text, i);
                     //英文单词等不要分割
                     if (findWordStart >= curIndex && this.isWordLetter(item.text[i])) {
+                        const currentText = item.text.substring(curIndex, findWordStart + 1);
+                        const text = isEllipsisLine ? this.getEllipsisText(currentText, maxWidth) : currentText;
+
                         ctx.fillText(
-                            item.text.substring(curIndex, findWordStart + 1),
+                            text,
                             this.countX(item.align, item.x, curDrawWidth - offset, maxWidth),
                             item.y + lineHeight * curLine
                         );
                         curIndex = findWordStart + 1;
                         curDrawWidth = offset;
+
+                        if (isEllipsisLine) {
+                            break;
+                        }
                     } else {
+                        const currentText = item.text.substring(curIndex, i);
+                        const text = isEllipsisLine ? this.getEllipsisText(currentText, maxWidth) : currentText;
+
                         ctx.fillText(
-                            item.text.substring(curIndex, i),
+                            text,
                             this.countX(item.align, item.x, curDrawWidth, maxWidth),
                             item.y + lineHeight * curLine
                         );
                         curIndex = i;
                         curDrawWidth = curCharWidth;
+
+                        if (isEllipsisLine) {
+                            break;
+                        }
                     }
 
                     curLine++;
@@ -201,6 +243,19 @@ class CreatePic extends Component {
                 }
             }
         }
+    }
+
+    // 添加省略号
+    getEllipsisText(text, maxWidth) {
+        const ellipsisWidth = this.ctx.measureText('...').width;
+        let textWidth = this.ctx.measureText(text).width;
+
+        while (text.length > 0 && textWidth + ellipsisWidth > maxWidth) {
+            text = text.substring(0, text.length - 1);
+            textWidth = this.ctx.measureText(text).width;
+        }
+
+        return `${text}...`;
     }
 
     findWord(text, index) {
